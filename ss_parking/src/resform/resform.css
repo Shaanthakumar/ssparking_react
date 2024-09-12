@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.form-container {
+    display: flex;
+    margin-top: calc(10dvh + 60px); /* Adjusted to ensure it starts below the navbar */
+    width: 50dvw;
+    background: linear-gradient(#212121, #212121) padding-box,
+                linear-gradient(145deg, transparent 35%, #e81cff, #40c9ff) border-box;
+    border: 2px solid transparent;
+    padding: 5rem;
+    font-size: 14px;
+    color: whitesmoke;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    border-radius: 16px;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container button:active {
+    scale: 0.95;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #717171;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #fff;
+    background-color: transparent;
+    border: 1px solid #414141;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #e81cff;
+}
+
+.form-submit-btn {
+    align-self: center;
+    color: #717171;
+    font-weight: 600;
+    background: #313131;
+    border: 1px solid #414141;
+    padding: 12px 16px;
+    font-size: inherit;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.form-submit-btn:hover {
+    background-color: #fff;
+    border-color: #fff;
+}
