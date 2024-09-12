@@ -1,20 +1,24 @@
 import React from "react";
 import '../content/content.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Abtus from "../abtus/abtus"; // About Us page component
-import Cntus from "../cntus/cntus"; // Contact Us page component
-import Navbar from "../navbar/navbar"; // Navbar component
-import Homer from "../home/homer";
+import Abtus from "../abtus/abtus";
+import Cntus from "../cntus/cntus";
+import Navbar from "../navbar/navbar";
+import Home from "../home/home";
+import Resform from "../resform/resform";
+import Walkin from "../walkin/walkin"; // Ensure you are importing Walkin
 
 function Content() {
     return (
         <BrowserRouter>
-            <Navbar /> {/* Render Navbar so it is displayed on all routes */}
+            <Navbar /> {/* Navbar on all routes */}
             <Routes>
                 {/* Define all routes */}
-                <Route path="/" element={<Homer/>} /> {/* Home component */}
-                <Route path="/abt" element={<Abtus />} /> {/* About Us component */}
-                <Route path="/cnt" element={<Cntus />} /> {/* Contact Us component */}
+                <Route path="/" element={<Home />} />
+                <Route path="/abt" element={<Abtus />} />
+                <Route path="/cnt" element={<Cntus />} />
+                <Route path="/res" element={<Resform />} /> {/* Resform route here */}
+                <Route path="/walk" element={<Walkin />} /> {/* Walkin route here */}
             </Routes>
         </BrowserRouter>
     );

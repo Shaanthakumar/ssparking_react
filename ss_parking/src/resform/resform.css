@@ -22,8 +22,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 50vw;
-    padding: 5rem;
+    width: 35vw; /* Reduced width */
+    max-width: 500px; /* Ensuring the form doesn't get too wide on larger screens */
+    padding: 3rem;
     background: linear-gradient(#212121, #212121) padding-box,
                 linear-gradient(145deg, transparent 35%, #e81cff, #40c9ff) border-box;
     border: 2px solid transparent;
