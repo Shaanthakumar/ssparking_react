@@ -1,27 +1,35 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    font-family: Arial, sans-serif;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .form-container {
     display: flex;
-    margin-top: calc(10dvh + 60px); /* Adjusted to ensure it starts below the navbar */
-    width: 50dvw;
+    flex-direction: column;
+    gap: 20px;
+    width: 50vw;
+    padding: 5rem;
     background: linear-gradient(#212121, #212121) padding-box,
                 linear-gradient(145deg, transparent 35%, #e81cff, #40c9ff) border-box;
     border: 2px solid transparent;
-    padding: 5rem;
-    font-size: 14px;
     color: whitesmoke;
-    flex-direction: column;
-    gap: 20px;
-    box-sizing: border-box;
     border-radius: 16px;
+    box-sizing: border-box;
     justify-content: center;
     align-items: center;
 }
@@ -43,7 +51,6 @@ body {
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 5px;
     color: #717171;
     font-weight: 600;

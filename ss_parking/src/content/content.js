@@ -12,7 +12,7 @@ function Content() {
             <Navbar /> {/* Render Navbar so it is displayed on all routes */}
             <Routes>
                 {/* Define all routes */}
-                <Route path="/" element={<Homer />} /> {/* Home component */}
+                <Route path="/" element={<Homer/>} /> {/* Home component */}
                 <Route path="/abt" element={<Abtus />} /> {/* About Us component */}
                 <Route path="/cnt" element={<Cntus />} /> {/* Contact Us component */}
             </Routes>
