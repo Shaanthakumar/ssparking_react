@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import '../navbar/navbar.css';
+import logo from '../assets/logo.png'; // Correct path relative to the component
 
 const title = "SSParking";
 const home = "HOME";
@@ -13,7 +14,7 @@ function Navbar() {
     return (
         <nav className="navbar">
             <div className="navbar-left">
-                <img src="S:/CIT/Sem - 5/Fullstack/ssparking/src/navbar/logo.png" alt="Logo" className="logo" />
+                <img src={logo} alt="Logo" className="logo" />
                 <div className="tooltip-container">
                     <span className="tooltip">Uiverse.io</span>
                     <span className="text">{title}</span>
