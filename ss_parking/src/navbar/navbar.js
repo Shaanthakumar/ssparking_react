@@ -8,6 +8,7 @@ const home = "HOME";
 const abt = "ABOUT US";
 const cnt = "CONTACT US";
 
+
 function Navbar() {
     const navigate = useNavigate(); // For navigation
 
@@ -31,6 +32,7 @@ function Navbar() {
                 <button className="nav-button" onClick={() => navigate("/cnt")}>
                     <span>{cnt}</span>
                 </button>
+                {/*<button className="nav-button" onClick={() => navigate("/admin")}><span>{admin}</span></button>*/}
             </div>
         </nav>
     );

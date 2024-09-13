@@ -7,6 +7,7 @@ import Navbar from "../navbar/navbar";
 import Home from "../home/home";
 import Resform from "../resform/resform";
 import Walkin from "../walkin/walkin"; // Ensure you are importing Walkin
+import Admin from "../admin/admin";
 
 function Content() {
     return (
@@ -17,8 +18,9 @@ function Content() {
                 <Route path="/" element={<Home />} />
                 <Route path="/abt" element={<Abtus />} />
                 <Route path="/cnt" element={<Cntus />} />
-                <Route path="/res" element={<Resform />} /> {/* Resform route here */}
-                <Route path="/walk" element={<Walkin />} /> {/* Walkin route here */}
+                <Route path="/res" element={<Resform />} /> 
+                <Route path="/walk" element={<Walkin />} /> 
+                {/*<Route path="/admin" element={<Admin />} />*/}
             </Routes>
         </BrowserRouter>
     );
