@@ -1,6 +1,7 @@
 import React from "react";
 import './abtus.css'; // Ensure CSS file is properly linked
 import skImage from './sk.jpeg'; // Correct path relative to the component
+import jrImage from '../assets/sanvanth.jpeg';
 
 function Abtus() {
     return (
@@ -23,12 +24,12 @@ function Abtus() {
                 <div className="card">
                     <div className="card-border-top"></div>
                     <div className="img">
-                        <img src="https://via.placeholder.com/70x80" alt="Sanvanth" />
+                        <img src={jrImage} alt="Sanvanth" />
                     </div>
                     <span>SANVANTH J R</span>
                     <div className="button-container">
                         <a href="https://github.com/sanvanth" target="_blank" rel="noopener noreferrer" className="card-button">GITHUB</a>
-                        <a href="https://www.linkedin.com/in/sanvanth" target="_blank" rel="noopener noreferrer" className="card-button">LINKEDIN</a>
+                        <a href="https://www.linkedin.com/in/sanvanth-ramakrishnan-092058254/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className="card-button">LINKEDIN</a>
                     </div>
                 </div>
             </div>
