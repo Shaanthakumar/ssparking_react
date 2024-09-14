@@ -20,7 +20,7 @@ function Content() {
                 <Route path="/cnt" element={<Cntus />} />
                 <Route path="/res" element={<Resform />} /> 
                 <Route path="/walk" element={<Walkin />} /> 
-                {/*<Route path="/admin" element={<Admin />} />*/}
+                <Route path="/admin" element={<Admin />} />
             </Routes>
         </BrowserRouter>
     );

@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import '../navbar/navbar.css';
 import logo from '../assets/logo.png'; // Correct path relative to the component
+import adminIcon from '../assets/admin.png'; // Add admin icon image
 
 const title = "SSParking";
 const home = "HOME";
 const abt = "ABOUT US";
 const cnt = "CONTACT US";
-
 
 function Navbar() {
     const navigate = useNavigate(); // For navigation
@@ -32,7 +32,12 @@ function Navbar() {
                 <button className="nav-button" onClick={() => navigate("/cnt")}>
                     <span>{cnt}</span>
                 </button>
-                {/*<button className="nav-button" onClick={() => navigate("/admin")}><span>{admin}</span></button>*/}
+                <img 
+                    src={adminIcon} 
+                    alt="Admin" 
+                    className="admin-icon" 
+                    onClick={() => navigate("/admin")} 
+                />
             </div>
         </nav>
     );
