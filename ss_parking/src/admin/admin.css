@@ -1,3 +1,10 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+}
 .login {
     width: 400px;
     height: auto; /* Dynamic height */
@@ -45,10 +52,10 @@
     margin: 20px 0 10px 0; /* Reduced margin at the bottom */
     border-radius: 500px;
     font-weight: 600;
-    animation: bounce2 1.6s;
+    animation: bounce2 1.0s;
 }
 
-.h1 {
+.adm {
     text-align: center;
     margin-bottom: 10px; /* Reduced space between heading and inputs */
     font-size: 1.5em;
