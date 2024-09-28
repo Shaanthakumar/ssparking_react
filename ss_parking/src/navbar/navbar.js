@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import '../navbar/navbar.css';
-import logo from '../assets/logo.png'; // Correct path relative to the component
+import logo from '../assets/logo2.jpeg'; // Correct path relative to the component
 import adminIcon from '../assets/admin.png'; // Add admin icon image
 
 const title = "SSParking";
