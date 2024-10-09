@@ -35,7 +35,7 @@ function Abtus() {
             </div>
             
             <div className="card_read">
-                <h2>The SSParking project, a collaborative effort by Shaanthakumar U and Sanvanth J R (MSc Software Systems, Coimbatore Institute of Technology, batch 2022-2027), was successfully completed between July and September 2024. Leveraging the powerful frameworks of Angular and Django, the project benefited significantly from the mentorship of Dr. A. Saravanan, Dr. Umarani, and Dr. T.N. Sugumar. The developers extend their heartfelt appreciation to these esteemed faculty members for their invaluable guidance and support, which played a pivotal role in the project's successful completion.</h2>
+                <h2>The SSParking project, a collaborative effort by Shaanthakumar U and Sanvanth J R (MSc Software Systems, Coimbatore Institute of Technology, batch 2022-2027), was successfully completed between July and September 2024. Leveraging the powerful frameworks of React and MongoDB, the project benefited significantly from the mentorship of Dr. A. Saravanan, Dr. Umarani, and Dr. T.N. Sugumar. The developers extend their heartfelt appreciation to these esteemed faculty members for their invaluable guidance and support, which played a pivotal role in the project's successful completion.</h2>
             </div>
         </div>
     );
