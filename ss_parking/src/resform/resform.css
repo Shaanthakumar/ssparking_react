@@ -9,8 +9,8 @@
     backdrop-filter: blur(8.2px);
     -webkit-backdrop-filter: blur(8.2px);
     border: 1px solid #fff;
-    width: 17em;
-    height: 12em;
+    width: 25em;
+    height: 20em;
   }
   
   .content {
@@ -37,7 +37,7 @@
   }
   
   .input {
-    color: #fff;
+    color: black;
     height: 2em;
     width: 2em;
     float: left;

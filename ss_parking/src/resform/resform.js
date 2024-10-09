@@ -8,7 +8,7 @@ function Resform() {
   
 <form class="form">
   <div class="content">
-    <p align="center">🏍️ENTER YOUR VEHICLE'S PLATE NUMBER🚗</p>
+    <p align="center">ENTER YOUR VEHICLE'S PLATE NUMBER</p>
     <div class="inp">
     <input maxlength="1" class="input" type="text" placeholder=""/>
     <input maxlength="1" class="input" type="text" placeholder=""/> 
