@@ -6,26 +6,31 @@ function Resform() {
   
   return (
   
-<form class="form">
-  <div class="content">
-    <p align="center">ENTER YOUR VEHICLE'S PLATE NUMBER</p>
-    <div class="inp">
-    <input maxlength="1" class="input" type="text" placeholder=""/>
-    <input maxlength="1" class="input" type="text" placeholder=""/> 
-    <input maxlength="1" class="input" type="text" placeholder=""/> 
-    <input maxlength="1" class="input" type="text" placeholder=""/> 
-    <input maxlength="1" class="input" type="text" placeholder=""/>
-    <input maxlength="1" class="input" type="text" placeholder=""/>
-    <input maxlength="1" class="input" type="text" placeholder=""/>
-    <input maxlength="1" class="input" type="text" placeholder=""/>
-    <input maxlength="1" class="input" type="text" placeholder=""/>
-    <input maxlength="1" class="input" type="text" placeholder=""/>
-    
+<form className="form">
+  <div className="content">
+    <p>ENTER YOUR VEHICLE'S PLATE NUMBER</p>
+    <div className="inp">
+      <div className="row">
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <div style={{ width: '1em' }} /> {/* Correct usage of inline style */}
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <div style={{ width: '1em' }} /> {/* Correct usage of inline style */}
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+      </div>
+      <div className="row">
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+        <input maxLength="1" className="input" type="text" placeholder=""/>
+      </div>
     </div>
     <button>Verify</button>
   </div>
-  
 </form>
+
   );
 }
 
