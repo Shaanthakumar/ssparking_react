@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: #333333;
-  border-radius: 5px;
+  background: rgba(51, 51, 51, 0.5); /* Partial transparency */
+  border-radius: 15px; /* Increase the border-radius for more rounded edges */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(8.2px);
   -webkit-backdrop-filter: blur(8.2px);
@@ -51,15 +51,21 @@
   font-size: larger;
 }
 
+/* Maintain size without shrinking */
 .input:focus {
   outline: none;
   border: 1px #fff solid;
 }
 
 .input:not(:placeholder-shown) {
-  background-color: #fff;
-  width: 1em;
-  height: 1em;
+  background-color: #fff; /* Change background color without shrinking */
+  /* Remove width and height adjustments to prevent shrinking */
+}
+
+/* Ensure consistent size */
+.input {
+  min-width: 2em;  /* Prevent shrinking by setting a minimum width */
+  min-height: 2em; /* Prevent shrinking by setting a minimum height */
 }
 
 .form button {
@@ -77,4 +83,15 @@
 .form button:hover {
   background-color: #fff;
   color: #000;
+}
+
+/* Add animation for clicking effect */
+@keyframes buttonClick {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.button-click-animation {
+  animation: buttonClick 0.2s ease-in-out;
 }
