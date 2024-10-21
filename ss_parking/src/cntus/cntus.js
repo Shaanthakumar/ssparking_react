@@ -78,13 +78,14 @@ function Cntus() {
                         required
                     />
 
-                    <button
-                        className={bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}}
-                        type="submit"
-                        disabled={loading}
-                    >
-                        {loading ? 'Sending...' : 'DROP'}
-                    </button>
+<button
+    className={`bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+    type="submit"
+    disabled={loading}
+>
+    {loading ? 'Sending...' : 'DROP'}
+</button>
+
                 </form>
             </div>
         </div>
