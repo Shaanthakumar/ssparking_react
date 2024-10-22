@@ -75,7 +75,7 @@ app.post('/api/contact-us', async (req, res) => {
 // Function to find vehicle in the RTO collection
 const findVehicleInRto = async (plateNumber) => {
     try {
-        const vehicle = await RTO.findOne({ plateNumber });
+        const vehicle = await RTO.findOne({ plateno: plateNumber });
         return vehicle;
     } catch (error) {
         console.error('Error finding vehicle in RTO:', error);
@@ -86,24 +86,25 @@ const findVehicleInRto = async (plateNumber) => {
 // API endpoint for verifying the plate number and sending OTP
 // API endpoint for verifying the plate number and sending OTP
 app.post('/api/verify-plate', async (req, res) => {
-    const { plateNumber } = req.body;
+    let { plateNumber } = req.body;
+
     console.log("Received plate number:", plateNumber); // Log received plate number
+    
+    plateNumber = plateNumber.trim(); // Sanitize plate number
 
     try {
-        // Use "plateno" instead of "plateNumber"
-        const vehicle = await RTO.findOne({ plateno: plateNumber }); // Adjust the field name
-
+        // Use "plateno" in MongoDB query
+        const vehicle = await RTO.findOne({ plateno: plateNumber });
         console.log("Vehicle found:", vehicle); // Log the found vehicle
 
         if (!vehicle) {
             return res.status(404).json({ message: 'Vehicle not found' });
         }
 
-        // Generate a 6-digit OTP
+        // Generate and send OTP
         const otp = Math.floor(100000 + Math.random() * 900000);
         console.log("Generated OTP:", otp); // Log the generated OTP
 
-        // Send OTP to the vehicle's linked email
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: vehicle.email,
@@ -114,12 +115,13 @@ app.post('/api/verify-plate', async (req, res) => {
         await transporter.sendMail(mailOptions);
         console.log("OTP sent to email:", vehicle.email); // Log successful email sending
 
-        res.status(200).json({ message: 'OTP sent to email', otp }); 
+        res.status(200).json({ message: 'OTP sent to email', otp });
     } catch (error) {
         console.error('Error in verification:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 
 // Start server

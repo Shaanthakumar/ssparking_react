@@ -20,8 +20,7 @@ function Cntus() {
         e.preventDefault();
         setError('');
         setSuccess('');
-        
-        // Validate fields
+
         if (!formData.name || !formData.email || !formData.message) {
             setError('All fields are required!');
             return;
@@ -31,7 +30,6 @@ function Cntus() {
         try {
             const response = await axios.post('http://localhost:5000/api/contact-us', formData);
             setSuccess(response.data.message);
-            // Reset the form fields
             setFormData({ name: '', email: '', message: '' });
         } catch (error) {
             setError('Error submitting your message. Please try again.');
@@ -42,10 +40,10 @@ function Cntus() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen dark">
-            <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-6">
+        <div className="flex flex-col items-center justify-center h-screen">
+            <div className="contact-panel">
                 <h2 className="text-2xl font-bold text-white mb-4 text-center">REACH US</h2>
-                
+
                 {error && <p className="text-red-500">{error}</p>}
                 {success && <p className="text-green-500">{success}</p>}
 
@@ -55,7 +53,7 @@ function Cntus() {
                         placeholder="Enter your name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="bg-gray-700 text-gray-200 border-0 rounded-md p-2 mb-4 focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+                        className="contact-input"
                         type="text"
                         required
                     />
@@ -64,7 +62,7 @@ function Cntus() {
                         placeholder="Enter your email address"
                         value={formData.email}
                         onChange={handleChange}
-                        className="bg-gray-700 text-gray-200 border-0 rounded-md p-2 mb-4 focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+                        className="contact-input"
                         type="email"
                         required
                     />
@@ -73,19 +71,18 @@ function Cntus() {
                         placeholder="Drop your concern"
                         value={formData.message}
                         onChange={handleChange}
-                        className="bg-gray-700 text-gray-200 border-0 rounded-md p-2 mb-4 focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+                        className="contact-input"
                         type="text"
                         required
                     />
 
-<button
-    className={`bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-    type="submit"
-    disabled={loading}
->
-    {loading ? 'Sending...' : 'DROP'}
-</button>
-
+                    <button
+                        className={`contact-button ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        type="submit"
+                        disabled={loading}
+                    >
+                        {loading ? 'Sending...' : 'DROP'}
+                    </button>
                 </form>
             </div>
         </div>
