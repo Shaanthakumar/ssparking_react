@@ -2,23 +2,24 @@ import React, { useRef, useEffect, useState } from "react";
 import '../resform/resform.css';
 
 function Resform() {
-  const plateInputs = useRef([]);  // References for plate number inputs
-  const otpInputs = useRef([]);  // References for OTP inputs
-  const verifyButton = useRef(null);  // Reference to the verify button
-  const otpVerifyButton = useRef(null);  // Reference to the OTP verify button
-  const [otpSent, setOtpSent] = useState(false); // State to check if OTP is sent
-  const [otpReceived, setOtpReceived] = useState(''); // Store received OTP
+  const plateInputs = useRef([]);
+  const otpInputs = useRef([]);
+  const verifyButton = useRef(null);
+  const otpVerifyButton = useRef(null);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpReceived, setOtpReceived] = useState('');
+  const [otpStatus, setOtpStatus] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     if (plateInputs.current[0]) {
-      plateInputs.current[0].focus(); // Focus on the first input for plate number
+      plateInputs.current[0].focus();
     }
   }, []);
 
   const handleInput = (e, index, isOtp = false) => {
-    let value = e.target.value.toUpperCase(); // Convert to uppercase
+    let value = e.target.value.toUpperCase();
 
-    // Prevent space bar input if the field is empty
     if (e.key === " " && value === "") {
       e.preventDefault();
       e.target.value = "-";
@@ -28,43 +29,51 @@ function Resform() {
       return;
     }
 
-    // Backspace logic
     if (e.key === "Backspace" && value === "") {
       if (index > 0) {
         (isOtp ? otpInputs : plateInputs).current[index - 1].focus();
-        (isOtp ? otpInputs : plateInputs).current[index - 1].value = ""; // Clear previous input
+        (isOtp ? otpInputs : plateInputs).current[index - 1].value = "";
       }
       return;
     }
 
-    e.target.value = value; // Set the uppercase value
+    e.target.value = value;
 
-    // Move focus if the max length is reached
     if (value.length === e.target.maxLength) {
       if (index < (isOtp ? otpInputs : plateInputs).current.length - 1) {
         (isOtp ? otpInputs : plateInputs).current[index + 1].focus();
       }
     }
 
-    // Handle Enter key for form submission
     if (e.key === "Enter") {
       const allFilled = (isOtp ? otpInputs : plateInputs).current.every(input => input.value.length === 1);
       if (allFilled) {
-        (isOtp ? otpVerifyButton : verifyButton).current.click(); // Trigger click event on the appropriate button
+        (isOtp ? otpVerifyButton : verifyButton).current.click();
       }
     }
   };
 
+  const handleAnimationEnd = (e) => {
+    e.target.classList.remove('button-click-animation');
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    let plateNumber = plateInputs.current.map(input => input.value).join(''); // Join input values
+    e.preventDefault();
+
+    if (isVerifying) return;
+
+    setIsVerifying(true);
+    let plateNumber = plateInputs.current.map(input => input.value).join('');
 
     console.log("Vehicle Plate Number:", plateNumber);
 
     if (!plateNumber) {
       console.error('Plate number is empty');
+      setIsVerifying(false);
       return;
     }
+
+    verifyButton.current.classList.add('button-click-animation');
 
     try {
       const response = await fetch('http://localhost:5000/api/verify-plate', {
@@ -87,29 +96,43 @@ function Resform() {
         });
 
         setOtpSent(true); // Show OTP input fields
-        setOtpReceived(data.otp); // Store the OTP received (for demo purposes)
+        setOtpReceived(data.otp); // Store the OTP received
+        setOtpStatus(''); // Clear any previous OTP status message
       } else {
         const errorData = await response.json();
         console.error('Error:', errorData.message);
       }
     } catch (error) {
       console.error('Error sending request:', error);
+    } finally {
+      setIsVerifying(false);
     }
-};
-
+  };
 
   const handleOtpSubmit = (e) => {
     e.preventDefault();
-    const enteredOtp = otpInputs.current.map(input => input.value).join(''); // Join OTP input values
+  
+    const enteredOtp = otpInputs.current.map(input => input.value.trim().toUpperCase()).join('');
+    
+    // Ensure otpReceived is treated as a string
+    const receivedOtpStr = String(otpReceived || '').trim().toUpperCase(); // Convert to string and apply trim
+    
     console.log('Entered OTP:', enteredOtp);
-
-    if (enteredOtp === otpReceived) {
+    console.log('Received OTP:', receivedOtpStr); // Debugging line
+  
+    otpVerifyButton.current.classList.add('button-click-animation');
+  
+    // Check if the OTP entered matches the received OTP
+    if (enteredOtp === receivedOtpStr) { 
       console.log('OTP verified successfully');
-      // Proceed with further actions (e.g., grant access)
+      setOtpStatus('OTP verified successfully!');
     } else {
       console.error('Invalid OTP');
+      setOtpStatus('Invalid OTP. Please try again.');
     }
   };
+  
+  
 
   return (
     <div>
@@ -145,7 +168,7 @@ function Resform() {
                 ))}
               </div>
             </div>
-            <button ref={verifyButton} type="submit">Verify</button>
+            <button ref={verifyButton} type="submit" onAnimationEnd={handleAnimationEnd} disabled={isVerifying}>Verify</button>
           </div>
         </form>
       ) : (
@@ -167,7 +190,8 @@ function Resform() {
                 ))}
               </div>
             </div>
-            <button ref={otpVerifyButton} type="submit">Verify OTP</button>
+            <button ref={otpVerifyButton} type="submit" onAnimationEnd={handleAnimationEnd}>Verify OTP</button>
+            {otpStatus && <p style={{ color: 'red', textAlign: 'center' }}>{otpStatus}</p>}
           </div>
         </form>
       )}
