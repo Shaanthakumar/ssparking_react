@@ -62,9 +62,9 @@ app.post('/api/contact-us', async (req, res) => {
 });
 
 // Function to find vehicle in the RTO table
-const findVehicleInRto = async (plateNumber) => {
+const findVehicleInRto = async (vehicleNumber) => {
   try {
-    const result = await pool.query("SELECT * FROM rto WHERE plate_number = $1", [plateNumber]);
+    const result = await pool.query("SELECT * FROM rto WHERE vehicle_number = $1", [vehicleNumber]);
     return result.rows[0];
   } catch (error) {
     console.error("Error finding vehicle in RTO:", error);
@@ -73,39 +73,37 @@ const findVehicleInRto = async (plateNumber) => {
 };
 
 // API endpoint for verifying the plate number and sending OTP
-// API endpoint for verifying the plate number and sending OTP
 app.post('/api/verify-plate', async (req, res) => {
-    let { plateNumber } = req.body;
-    plateNumber = plateNumber.trim();
-  
-    try {
-      const vehicle = await findVehicleInRto(plateNumber);
-      if (!vehicle) {
-        return res.status(404).json({ message: "Vehicle not found" });
-      }
-  
-      // Generate and send OTP
-      const otp = Math.floor(100000 + Math.random() * 900000);
-  
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: vehicle.email_id, // Use the correct column name
-        subject: "Your OTP for Vehicle Verification",
-        text: `Your OTP is: ${otp}\n\n` +
-              `Vehicle Name: ${vehicle.vehicle_name}\n` +  // Include vehicle name
-              `Owner Name: ${vehicle.owner_name}`          // Include owner name
-      };
-  
-      await transporter.sendMail(mailOptions);
-      console.log("OTP sent to email:", vehicle.email_id); // Use the correct column name
-  
-      res.status(200).json({ message: "OTP sent to email", otp });
-    } catch (error) {
-      console.error("Error in verification:", error);
-      res.status(500).json({ message: "Server error" });
+  let { plateNumber } = req.body;
+  plateNumber = plateNumber.trim();
+
+  try {
+    const vehicle = await findVehicleInRto(plateNumber);
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
     }
-  });
-  
+
+    // Generate and send OTP
+    const otp = Math.floor(100000 + Math.random() * 900000);
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: vehicle.email, // Updated column name
+      subject: "Your OTP for Vehicle Verification",
+      text: `Your OTP is: ${otp}\n\n` +
+            `Vehicle Name: ${vehicle.vehicle_name}\n` +  // Vehicle name from correct column
+            `Vehicle Number: ${vehicle.vehicle_number}`   // Include vehicle number as there's no owner name
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("OTP sent to email:", vehicle.email); // Updated column name
+
+    res.status(200).json({ message: "OTP sent to email", otp });
+  } catch (error) {
+    console.error("Error in verification:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
