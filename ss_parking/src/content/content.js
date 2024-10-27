@@ -9,6 +9,7 @@ import Resform from "../resform/resform";
 import Admin from "../admin/admin";
 import Pricing from "../pricing/pricing";
 import CancelRes from "../cancelres/cancelres";
+
 function Content() {
     return (
         <BrowserRouter>

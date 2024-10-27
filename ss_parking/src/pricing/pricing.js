@@ -16,11 +16,13 @@ function Pricing() {
           3. FIRST 1 hour - Rs.100 THEN For every MINUTE after the FIRST hour - Rs.1
         </p>
         <p className="term-point">
-          4. The parking reservation must be confirmed 24 hours in advance.
+          4. The parking reservation day can either be the same day or the next day and not more than that.
         </p>
         <p className="term-point">
           5. Cancellations or changes to reservations must be made 12 hours prior to the reserved time.
         </p>
+        <p  className="term-point">6. If the vehicle is not found in the building after 10 minutes from the reserved time, the reservation gets cancelled.</p>
+        
       </div>
     </div>
   );
