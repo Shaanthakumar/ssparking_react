@@ -8,6 +8,7 @@ const title = "SSParking";
 const home = "HOME";
 const abt = "ABOUT US";
 const cnt = "CONTACT US";
+const price="PRICING";
 
 function Navbar() {
     const navigate = useNavigate(); // For navigation
@@ -26,6 +27,10 @@ function Navbar() {
                 <button className="nav-button" onClick={() => navigate("/")}>
                     <span>{home}</span>
                 </button>
+                <button className="nav-button" onClick={() => navigate("/price")}>
+                    <span>{price}</span>
+                </button>
+
                 <button className="nav-button" onClick={() => navigate("/abt")}>
                     <span>{abt}</span>
                 </button>

@@ -101,3 +101,22 @@
 .button-click-animation {
   animation: buttonClick 0.2s ease-in-out;
 }
+
+/* Set the width of time input fields to 40% */
+/* Set the width of time input fields to 40% */
+input[type="time"] {
+  width: 40%;  /* Set the width to 40% */
+  margin: 0 auto;  /* Center the time input horizontally */
+  padding: 5px; /* Add padding for a better look */
+  border-radius: 5px; /* Add a slight border radius for consistency */
+  border: 1px solid #fff; /* Border color */
+}
+
+select[name="day"],
+select[name="location"] {
+  width: 50%; /* Set the width to match both dropdowns */
+  margin: 0 auto; /* Center both dropdowns horizontally */
+  padding: 5px; /* Add padding for a better look */
+  border-radius: 5px; /* Add a slight border radius for consistency */
+  border: 1px solid #fff; /* Border color */
+}

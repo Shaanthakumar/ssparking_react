@@ -47,7 +47,7 @@ const Contact = mongoose.model("Contact", contactSchema);
 
 // Define schema and model for RTO collection
 const rtoSchema = new mongoose.Schema({
-    plateNumber: { type: String, required: true, unique: true },
+    plateNumber: { type: String, sparse: true, unique: true },
     email: { type: String, required: true },
 });
 
@@ -109,7 +109,7 @@ app.post('/api/verify-plate', async (req, res) => {
             from: process.env.EMAIL_USER,
             to: vehicle.email,
             subject: 'Your OTP for Vehicle Verification',
-            text: `Your OTP is: ${otp}`,
+            text: Your OTP is: ${otp},
         };
 
         await transporter.sendMail(mailOptions);
@@ -122,10 +122,8 @@ app.post('/api/verify-plate', async (req, res) => {
     }
 });
 
-
-
 // Start server
 const PORT = process.env.PORT || 5000; // Use environment variable for port
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(Server is running on port ${PORT});
 });

@@ -1,0 +1,27 @@
+.contact-panel {
+    background: rgba(51, 51, 51, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8.2px);
+    -webkit-backdrop-filter: blur(8.2px);
+    border: 1px solid #fff;
+    padding: 2rem;
+    width: 80%; /* Adjusted width for larger screens */
+    max-width: 600px;
+    margin: 0 auto; /* Center horizontally */
+}
+
+h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.term-point {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
