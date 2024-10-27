@@ -1,0 +1,93 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(51, 51, 51, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8.2px);
+    -webkit-backdrop-filter: blur(8.2px);
+    border: 1px solid #fff;
+    width: 25em;
+    height: 20em;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  
+  .form p {
+    color: #fff;
+    font-weight: bolder;
+    text-align: center;
+  }
+  
+  .inp {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .input {
+    color: black;
+    height: 2em;
+    width: 2em;
+    text-align: center;
+    background: #00000000;
+    outline: none;
+    border: 1px #fff solid;
+    border-radius: 5px;
+    transition: all 0.6s ease;
+    font-size: larger;
+  }
+  
+  .input:focus {
+    outline: none;
+    border: 1px #fff solid;
+  }
+  
+  .input:not(:placeholder-shown) {
+    background-color: #fff;
+  }
+  
+  .input {
+    min-width: 2em;
+    min-height: 2em;
+  }
+  
+  .form button {
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    color: black;
+    padding: 0.5em 2em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form button:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  @keyframes buttonClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+  
+  .button-click-animation {
+    animation: buttonClick 0.2s ease-in-out;
+  }
+  

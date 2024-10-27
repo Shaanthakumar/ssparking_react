@@ -8,8 +8,7 @@ import Home from "../home/home";
 import Resform from "../resform/resform";
 import Admin from "../admin/admin";
 import Pricing from "../pricing/pricing";
-import CancelRes from "../cancelres/cancelres";
-
+import Cancelform from "../cancelform/cancelform";
 function Content() {
     return (
         <BrowserRouter>
@@ -22,7 +21,7 @@ function Content() {
                 <Route path="/cnt" element={<Cntus />} />
                 <Route path="/res" element={<Resform />} /> 
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/cancel" elemnt={<CancelRes/>}/>
+                <Route path="/cancel" elemnt={<Cancelform/>}/>
             </Routes>
         </BrowserRouter>
     );

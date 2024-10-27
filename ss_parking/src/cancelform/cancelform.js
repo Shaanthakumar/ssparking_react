@@ -1,15 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
-import '../cancelres/cancelres.css';
+import '../cancelform/cancelform.css';
 
-function CancelRes() {
-  const plateInputs = useRef([]);
-  const otpInputs = useRef([]);
-  const verifyButton = useRef(null);
-  const otpVerifyButton = useRef(null);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpReceived, setOtpReceived] = useState('');
-  const [otpStatus, setOtpStatus] = useState('');
-  const [isVerifying, setIsVerifying] = useState(false);
+function Cancelform() {
+  const plateInputs = useRef([]); 
+  const otpInputs = useRef([]); 
+  const verifyButton = useRef(null); 
+  const otpVerifyButton = useRef(null); 
+  const [otpSent, setOtpSent] = useState(false); 
+  const [otpReceived, setOtpReceived] = useState(''); 
+  const [otpStatus, setOtpStatus] = useState(''); 
+  const [isVerifying, setIsVerifying] = useState(false); 
 
   useEffect(() => {
     if (plateInputs.current[0]) {
@@ -23,9 +23,28 @@ function CancelRes() {
     }
   }, [otpSent]);
 
+  useEffect(() => {
+    if (otpSent) {
+      otpInputs.current.forEach(input => {
+        if (input) {
+          input.value = ''; 
+        }
+      });
+    }
+  }, [otpSent]);
+
   const handleInput = (e, index, isOtp = false) => {
     let value = e.target.value.toUpperCase();
-    
+
+    if (e.key === " " && value === "") {
+      e.preventDefault();
+      e.target.value = "-";
+      if (index < (isOtp ? otpInputs : plateInputs).current.length - 1) {
+        (isOtp ? otpInputs : plateInputs).current[index + 1].focus();
+      }
+      return;
+    }
+
     if (e.key === "Backspace" && value === "") {
       if (index > 0) {
         (isOtp ? otpInputs : plateInputs).current[index - 1].focus();
@@ -50,12 +69,16 @@ function CancelRes() {
     }
   };
 
+  const handleAnimationEnd = (e) => {
+    e.target.classList.remove('button-click-animation');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isVerifying) return;
 
     setIsVerifying(true);
-    const plateNumber = plateInputs.current.map(input => input.value).join('');
+    let plateNumber = plateInputs.current.map(input => input.value).join('');
 
     console.log("Vehicle Plate Number:", plateNumber);
 
@@ -65,19 +88,24 @@ function CancelRes() {
       return;
     }
 
+    verifyButton.current.classList.add('button-click-animation');
+
     try {
       const response = await fetch('http://localhost:5000/api/verify-plate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ plateNumber }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log('OTP sent to email:', data.message);
-        setOtpSent(true);
-        setOtpReceived(data.otp);
-        setOtpStatus('');
+
+        setOtpSent(true); 
+        setOtpReceived(data.otp); 
+        setOtpStatus(''); 
       } else {
         const errorData = await response.json();
         console.error('Error:', errorData.message);
@@ -93,10 +121,12 @@ function CancelRes() {
     e.preventDefault();
 
     const enteredOtp = otpInputs.current.map(input => input.value.trim().toUpperCase()).join('');
-    const receivedOtpStr = String(otpReceived || '').trim().toUpperCase();
+    const receivedOtpStr = String(otpReceived || '').trim().toUpperCase(); 
 
     console.log('Entered OTP:', enteredOtp);
-    console.log('Received OTP:', receivedOtpStr);
+    console.log('Received OTP:', receivedOtpStr); 
+
+    otpVerifyButton.current.classList.add('button-click-animation');
 
     if (enteredOtp === receivedOtpStr) {
       console.log('OTP verified successfully');
@@ -108,7 +138,7 @@ function CancelRes() {
   };
 
   return (
-    <div className="pricing-container">
+    <div>
       {!otpSent ? (
         <form className="form" onSubmit={handleSubmit}>
           <div className="content">
@@ -141,7 +171,7 @@ function CancelRes() {
                 ))}
               </div>
             </div>
-            <button ref={verifyButton} type="submit" disabled={isVerifying}>Verify</button>
+            <button ref={verifyButton} type="submit" onAnimationEnd={handleAnimationEnd} disabled={isVerifying}>Verify</button>
           </div>
         </form>
       ) : (
@@ -163,7 +193,7 @@ function CancelRes() {
                 ))}
               </div>
             </div>
-            <button ref={otpVerifyButton} type="submit">Verify OTP</button>
+            <button ref={otpVerifyButton} type="submit" onAnimationEnd={handleAnimationEnd}>Verify OTP</button>
             {otpStatus && <p style={{ color: 'red', textAlign: 'center' }}>{otpStatus}</p>}
           </div>
         </form>
@@ -172,4 +202,4 @@ function CancelRes() {
   );
 }
 
-export default CancelRes;
+export default Cancelform;

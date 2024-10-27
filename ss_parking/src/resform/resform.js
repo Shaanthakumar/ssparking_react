@@ -13,6 +13,7 @@ function Resform() {
   const [showTimeForm, setShowTimeForm] = useState(false); 
   const [currentDate, setCurrentDate] = useState(''); 
   const [tomorrowDate, setTomorrowDate] = useState(''); 
+  const [validTime, setValidTime] = useState('');
 
   useEffect(() => {
     const today = new Date();
@@ -154,7 +155,7 @@ function Resform() {
     }
   };
 
-  const handleTimeSubmit = (e) => {
+  const handleTimeSubmit = async (e) => {
     e.preventDefault();
 
     const day = e.target.elements.day.value;
@@ -165,114 +166,130 @@ function Resform() {
     console.log('Location:', location);
     console.log('In Time:', inTime);
 
-    // Perform further actions like sending this data to the server
-  };
+    // Send reservation request to the server
+    try {
+      const response = await fetch('http://localhost:5000/api/reserve-parking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ day, location, inTime }),
+      });
 
-  const [validTime, setValidTime] = useState('');
+      if (response.ok) {
+        const reservationData = await response.json();
+        console.log('Reservation successful:', reservationData.message);
+      } else {
+        const errorData = await response.json();
+        console.error('Error reserving parking:', errorData.message);
+      }
+    } catch (error) {
+      console.error('Error sending reservation request:', error);
+    }
+  };
 
   const handleTimeChange = (e) => {
     const timeValue = e.target.value;
     const [, minutes] = timeValue.split(':');
   
-    // Check if minutes are one of the allowed values
     if (['00', '15', '30', '45'].includes(minutes)) {
-      setValidTime(timeValue); // Save valid time to state
+      setValidTime(timeValue); 
     } else {
-      // Revert to the last valid time or clear if invalid
       e.target.value = validTime;
       alert('Please enter minutes as 00, 15, 30, or 45 only.');
     }
   };
 
-// ... (rest of your existing code)
-
-return (
-  <div>
-    {!otpSent ? (
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="content">
-          <p>ENTER YOUR VEHICLE'S PLATE NUMBER</p>
-          <div className="inp">
-            <div className="row">
-              {Array(6).fill().map((_, index) => (
-                <input
-                  key={index}
-                  ref={el => plateInputs.current[index] = el}
-                  maxLength="1"
-                  className="input"
-                  type="text"
-                  onChange={(e) => handleInput(e, index)}
-                  onKeyDown={(e) => handleInput(e, index)}
-                />
-              ))}
+  return (
+    <div>
+      {!otpSent ? (
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="content">
+            <p>ENTER YOUR VEHICLE'S PLATE NUMBER</p>
+            <div className="inp">
+              <div className="row">
+                {Array(6).fill().map((_, index) => (
+                  <input
+                    key={index}
+                    ref={el => plateInputs.current[index] = el}
+                    maxLength="1"
+                    className="input"
+                    type="text"
+                    onChange={(e) => handleInput(e, index)}
+                    onKeyDown={(e) => handleInput(e, index)}
+                  />
+                ))}
+              </div>
+              <div className="row">
+                {Array(4).fill().map((_, index) => (
+                  <input
+                    key={index + 6}
+                    ref={el => plateInputs.current[index + 6] = el}
+                    maxLength="1"
+                    className="input"
+                    type="text"
+                    onChange={(e) => handleInput(e, index + 6)}
+                    onKeyDown={(e) => handleInput(e, index + 6)}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="row">
-              {Array(4).fill().map((_, index) => (
-                <input
-                  key={index + 6}
-                  ref={el => plateInputs.current[index + 6] = el}
-                  maxLength="1"
-                  className="input"
-                  type="text"
-                  onChange={(e) => handleInput(e, index + 6)}
-                  onKeyDown={(e) => handleInput(e, index + 6)}
-                />
-              ))}
-            </div>
+            <button ref={verifyButton} type="submit" onAnimationEnd={handleAnimationEnd} disabled={isVerifying}>Verify</button>
           </div>
-          <button ref={verifyButton} type="submit" onAnimationEnd={handleAnimationEnd} disabled={isVerifying}>Verify</button>
-        </div>
-      </form>
-    ) : !showTimeForm ? (
-      <form className="form" onSubmit={handleOtpSubmit}>
-        <div className="content">
-          <p>ENTER THE OTP SENT TO YOUR EMAIL</p>
-          <div className="inp">
-            <div className="row">
-              {Array(6).fill().map((_, index) => (
-                <input
-                  key={index}
-                  ref={el => otpInputs.current[index] = el}
-                  maxLength="1"
-                  className="input"
-                  type="text"
-                  onChange={(e) => handleInput(e, index, true)}
-                  onKeyDown={(e) => handleInput(e, index, true)}
-                />
-              ))}
+        </form>
+      ) : !showTimeForm ? (
+        <form className="form" onSubmit={handleOtpSubmit}>
+          <div className="content">
+            <p>ENTER THE OTP SENT TO YOUR EMAIL</p>
+            <div className="inp">
+              <div className="row">
+                {Array(6).fill().map((_, index) => (
+                  <input
+                    key={index}
+                    ref={el => otpInputs.current[index] = el}
+                    maxLength="1"
+                    className="input"
+                    type="text"
+                    onChange={(e) => handleInput(e, index, true)}
+                    onKeyDown={(e) => handleInput(e, index, true)}
+                  />
+                ))}
+              </div>
             </div>
+            <button ref={otpVerifyButton} type="submit" onAnimationEnd={handleAnimationEnd}>Verify OTP</button>
+            {otpStatus && <p style={{ color: 'red', textAlign: 'center' }}>{otpStatus}</p>}
           </div>
-          <button ref={otpVerifyButton} type="submit" onAnimationEnd={handleAnimationEnd}>Verify OTP</button>
-          {otpStatus && <p style={{ color: 'red', textAlign: 'center' }}>{otpStatus}</p>}
-        </div>
-      </form>
-    ) : (
-      <form className="form" onSubmit={handleTimeSubmit}>
-        <div className="content">
-          <p>ENTER THE DETAILS</p>
-          <div className="inp">
-            <label htmlFor="day">Day of Parking:</label>
-            <select id="day" name="day" defaultValue="">
-              <option value="" disabled>Select the date</option> {/* Placeholder option */}
-              <option value={currentDate}>{currentDate}</option>
-              <option value={tomorrowDate}>{tomorrowDate}</option>
+        </form>
+      ) : (
+        <form className="form" onSubmit={handleTimeSubmit}>
+          <div className="content">
+            <h2>Reservation Details</h2>
+            <p>Select Day: {currentDate} (today) or {tomorrowDate} (tomorrow)</p>
+            <select id="day" name="day" defaultValue="today">
+              <option value="today">Today</option>
+              <option value="tomorrow">Tomorrow</option>
             </select>
-            <label htmlFor="location">Location:</label>
+            <label htmlFor="location">Select the location:</label>
             <select id="location" name="location" defaultValue="">
-              <option value="" disabled>Select the location</option> {/* Placeholder option */}
+              <option value="" disabled>Select the location</option>
               <option value="Brook fields">Brook fields</option>
               <option value="Fun mall">Fun mall</option>
               <option value="Prozone">Prozone</option>
             </select>
-            <label htmlFor="inTime">In Time:</label>
-            <input id="inTime" name="inTime" type="time" onChange={handleTimeChange} />
+            <label htmlFor="inTime">Select In Time (hh:mm):</label>
+            <input
+              type="time"
+              id="inTime"
+              name="inTime"
+              required
+              onChange={handleTimeChange}
+            />
+            <button type="submit">Submit Reservation</button>
           </div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
-    )}
-  </div>
-);
+        </form>
+      )}
+    </div>
+  );
 }
 
 export default Resform;

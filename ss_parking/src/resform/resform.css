@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: rgba(51, 51, 51, 0.5); /* Partial transparency */
-  border-radius: 15px; /* Increase the border-radius for more rounded edges */
+  background: rgba(51, 51, 51, 0.5);
+  border-radius: 15px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(8.2px);
   -webkit-backdrop-filter: blur(8.2px);
@@ -51,72 +51,42 @@
   font-size: larger;
 }
 
-/* Maintain size without shrinking */
 .input:focus {
   outline: none;
   border: 1px #fff solid;
 }
 
 .input:not(:placeholder-shown) {
-  background-color: #fff; /* Change background color without shrinking */
-  /* Remove width and height adjustments to prevent shrinking */
+  background-color: #fff;
 }
 
-/* Ensure consistent size */
 .input {
-  min-width: 2em;  /* Prevent shrinking by setting a minimum width */
-  min-height: 2em; /* Prevent shrinking by setting a minimum height */
+  min-width: 2em;
+  min-height: 2em;
 }
 
 .form button {
   margin-left: auto;
   margin-right: auto;
-  background: #fff; /* Change button background color to white */
-  color: black; /* Change button text color to black */
+  background: #fff;
+  color: black;
   padding: 0.5em 2em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Transition for hover effect */
+  transition: background-color 0.3s ease;
 }
 
-/* Change button color on hover */
 .form button:hover {
   background: rgba(0, 0, 0, 0.1);
 }
 
-/* Add the CSS animation */
 @keyframes buttonClick {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
 }
 
 .button-click-animation {
   animation: buttonClick 0.2s ease-in-out;
-}
-
-/* Set the width of time input fields to 40% */
-/* Set the width of time input fields to 40% */
-input[type="time"] {
-  width: 40%;  /* Set the width to 40% */
-  margin: 0 auto;  /* Center the time input horizontally */
-  padding: 5px; /* Add padding for a better look */
-  border-radius: 5px; /* Add a slight border radius for consistency */
-  border: 1px solid #fff; /* Border color */
-}
-
-select[name="day"],
-select[name="location"] {
-  width: 50%; /* Set the width to match both dropdowns */
-  margin: 0 auto; /* Center both dropdowns horizontally */
-  padding: 5px; /* Add padding for a better look */
-  border-radius: 5px; /* Add a slight border radius for consistency */
-  border: 1px solid #fff; /* Border color */
 }

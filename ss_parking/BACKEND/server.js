@@ -88,19 +88,48 @@ app.post('/api/verify-plate', async (req, res) => {
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: vehicle.email, // Updated column name
+      to: vehicle.email,
       subject: "Your OTP for Vehicle Verification",
       text: `Your OTP is: ${otp}\n\n` +
-            `Vehicle Name: ${vehicle.vehicle_name}\n` +  // Vehicle name from correct column
-            `Vehicle Number: ${vehicle.vehicle_number}`   // Include vehicle number as there's no owner name
+            `Vehicle Name: ${vehicle.vehicle_name}\n` +
+            `Vehicle Number: ${vehicle.vehicle_number}`
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("OTP sent to email:", vehicle.email); // Updated column name
+    console.log("OTP sent to email:", vehicle.email);
 
     res.status(200).json({ message: "OTP sent to email", otp });
   } catch (error) {
     console.error("Error in verification:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// API endpoint to reserve parking
+app.post('/api/reserve-parking', async (req, res) => {
+  const { day, location, inTime } = req.body;
+
+  // Validate input
+  if (!day || !location || !inTime) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  try {
+    // Fetch available parking spaces from the database
+    const result = await pool.query("SELECT * FROM parking_spaces WHERE location = $1 AND is_occupied = false LIMIT 1", [location]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "No available parking spaces" });
+    }
+
+    // Reserve the first available space
+    const parkingSpace = result.rows[0];
+    const updateQuery = "UPDATE parking_spaces SET is_occupied = true, reserved_for = $1 WHERE id = $2";
+    await pool.query(updateQuery, [day, parkingSpace.id]);
+
+    res.status(200).json({ message: "Parking space reserved successfully", spaceId: parkingSpace.id });
+  } catch (error) {
+    console.error("Error reserving parking space:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
