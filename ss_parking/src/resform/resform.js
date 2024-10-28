@@ -162,31 +162,58 @@ function Resform() {
     const location = e.target.elements.location.value;
     const inTime = e.target.elements.inTime.value;
 
-    console.log('Day of Parking:', day);
-    console.log('Location:', location);
-    console.log('In Time:', inTime);
+    // Retrieve vehicle plate number
+    const plateNumber = plateInputs.current.map(input => input.value).join('');
 
-    // Send reservation request to the server
-    try {
-      const response = await fetch('http://localhost:5000/api/reserve-parking', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ day, location, inTime }),
-      });
-
-      if (response.ok) {
-        const reservationData = await response.json();
-        console.log('Reservation successful:', reservationData.message);
-      } else {
-        const errorData = await response.json();
-        console.error('Error reserving parking:', errorData.message);
-      }
-    } catch (error) {
-      console.error('Error sending reservation request:', error);
+    // Check if the plate number is valid
+    if (!plateNumber) {
+        alert('Please enter a valid vehicle plate number.');
+        return;
     }
-  };
+
+    try {
+        // Fetch vehicle details from the RTO table
+        const vehicleResponse = await fetch('http://localhost:5000/api/get-vehicle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ plateNumber }),
+        });
+
+        if (!vehicleResponse.ok) {
+            const errorData = await vehicleResponse.json();
+            console.error('Error fetching vehicle details:', errorData.message);
+            return;
+        }
+
+        const vehicleData = await vehicleResponse.json();
+        const vehicleName = vehicleData.vehicle_name; // Assuming vehicle_name is returned from the server
+
+        // Send reservation request to the server
+        const response = await fetch('http://localhost:5000/api/reserve-parking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ day, location, inTime, plateNumber, vehicleName }),
+        });
+
+        if (response.ok) {
+            const reservationData = await response.json();
+            console.log('Reservation successful:', reservationData.message);
+            alert(`Reservation Confirmed!\nVehicle: ${vehicleName}\nDate: ${day}\nLocation: ${location}\nIn Time: ${inTime}`);
+        } else {
+            const errorData = await response.json();
+            console.error('Error reserving parking:', errorData.message);
+            alert('Error reserving parking. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error sending reservation request:', error);
+        alert('Error reserving parking. Please try again.');
+    }
+};
+
 
   const handleTimeChange = (e) => {
     const timeValue = e.target.value;

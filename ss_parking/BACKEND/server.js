@@ -105,32 +105,31 @@ app.post('/api/verify-plate', async (req, res) => {
   }
 });
 
-// API endpoint to reserve parking
+// API endpoint for reserving parking
 app.post('/api/reserve-parking', async (req, res) => {
-  const { day, location, inTime } = req.body;
+  const { day, location, inTime, plateNumber, vehicleName } = req.body;
 
-  // Validate input
-  if (!day || !location || !inTime) {
+  // Validate input data
+  if (!day || !location || !inTime || !plateNumber || !vehicleName) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
-    // Fetch available parking spaces from the database
-    const result = await pool.query("SELECT * FROM parking_spaces WHERE location = $1 AND is_occupied = false LIMIT 1", [location]);
+    // Determine the slot number based on the location (you can modify the logic as needed)
+    const slotNumber = 1; // This should be dynamically determined based on availability
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: "No available parking spaces" });
-    }
+    // Insert reservation data into the reservations table
+    const query = `
+      INSERT INTO reservations (vehicle_number, reservation_date, in_time, location, slot_number, created_at) 
+      VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *
+    `;
+    const values = [plateNumber, day === 'today' ? new Date() : new Date(Date.now() + 86400000), inTime, location, slotNumber]; // Add 86400000ms for tomorrow's date
+    const result = await pool.query(query, values);
 
-    // Reserve the first available space
-    const parkingSpace = result.rows[0];
-    const updateQuery = "UPDATE parking_spaces SET is_occupied = true, reserved_for = $1 WHERE id = $2";
-    await pool.query(updateQuery, [day, parkingSpace.id]);
-
-    res.status(200).json({ message: "Parking space reserved successfully", spaceId: parkingSpace.id });
+    res.status(201).json({ message: 'Reservation created successfully', data: result.rows[0] });
   } catch (error) {
-    console.error("Error reserving parking space:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error reserving parking:", error);
+    res.status(500).json({ error: 'Error reserving parking' });
   }
 });
 
